@@ -38,7 +38,7 @@ const posts = [
         "media": "https://unsplash.it/600/400?image=24",
         "author": {
             "name": "Luca Formicola",
-            "image": "LF",
+            "image": null
         },
         "likes": 56,
         "created": "2021-04-03"
@@ -56,8 +56,6 @@ const posts = [
     }
 ];
 
-console.log(posts);
-
 const myCont = document.getElementById("container");
 
 // milestone 1
@@ -67,8 +65,7 @@ posts.forEach(( element) => {
         <div class="post__header">
             <div class="post-meta">                    
                 <div class="post-meta__icon">
-                    <img class="profile-pic" src="${element.author.image}" alt="
-                    ${element.author.name}">
+                    <img class="profile-pic" src="${element.author.image}" alt="">
                 </div>
                 <div class="post-meta__data">
                     <div class="post-meta__author">${element.author.name}</div>
@@ -83,13 +80,13 @@ posts.forEach(( element) => {
         <div class="post__footer">
             <div class="likes js-likes">
                 <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#" data-postid="1">
+                    <a class="like-button  js-like-button">
                         <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                         <span class="like-button__label">Mi Piace</span>
                     </a>
                 </div>
                 <div class="likes__counter">
-                    Piace a <b id="like-counter-1" class="js-likes-counter">
+                    Piace a <b id="like-counter-${element.id}" class="js-likes-counter">
                     ${element.likes}</b> persone
                 </div>
             </div> 
@@ -97,4 +94,37 @@ posts.forEach(( element) => {
     </div>`
 
     myCont.innerHTML += social;
+
 });
+
+
+
+let btnLike = document.querySelectorAll(".like-button");
+
+let decrease = 0;
+
+for (let i = 0; i < btnLike.length; i++){
+    btnLike[i].addEventListener("click",
+        function() {
+            btnLike[i].classList.toggle("like-button--liked");
+
+            let like = posts[i].likes;
+
+            let id = i + 1;
+
+            let counter = document.getElementById(`like-counter-${id}`);
+
+            counter.innerHTML = like + 1;
+
+            if(decrease === 0){
+                decrease ++;
+                counter.innerHTML = like + decrease;
+            }else if( decrease === 1){
+                decrease --;
+                counter.innerHTML = like + decrease;
+            }
+        }
+    );
+}
+
+
